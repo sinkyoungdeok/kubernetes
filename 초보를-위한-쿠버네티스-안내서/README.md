@@ -63,6 +63,36 @@
 
 ## 3. 컨테이너 오케스트레이션 3/4(도커 그 이후)
 
+### 1. 배포는 어떻게 할까 ?
+- 컨테이너 기술이 좋긴 한데, 배포는 어떻게 해야 좋을까 ?
+![image](https://user-images.githubusercontent.com/28394879/131446762-6455070d-ddd8-4e5f-a8da-2d8b4adbb1dd.png)
+- 도커만으로는, 위에 사진 처럼 각 서버마다 들어가서 같은 작업을 해주어야 한다. 
+- 하나하나 관리하는게 쉽지 않다.
+
+![image](https://user-images.githubusercontent.com/28394879/131446911-08039b1b-9b6f-4a6e-8f0e-b035781ad07c.png)
+- 이렇게 많은 도커를 사용하다 보면, 컨테이너가 실행 안되어 있는 서버가 존재한다.
+- 어느 서버에 여유가 있는지 보려면, 모니터링 도구를 만들어야 될 수도 있고, 하나하나 접속해서 관리해야 되는 단점이 있다.
+
+![image](https://user-images.githubusercontent.com/28394879/131447236-dd7c5889-fb5d-4241-88ce-5d3ed25af160.png)
+- 그리고 또 하나의 문제는, 중앙에서 모든 컨테이너의 버전 업데이트를 하거나 롤백을 할때 일일이 관리하는게 쉽지가 않다.
+
+### 2. 서비스 검색은 어떻게 할까 ?
+![image](https://user-images.githubusercontent.com/28394879/131447415-1e76867c-8ccd-4a4c-b128-881fd16d4a3b.png)
+
+### 3. 서비스 노출(Gateway)은 어떻게 할까?
+![image](https://user-images.githubusercontent.com/28394879/131447498-35434a6a-6bcc-40c4-bd1c-d8048845bd70.png)
+- 이렇게 구성하는게 간단하긴 하지만, 매번 nginx 설정을 해줘야 돼서 귀찮다.
+- 이런 설정들을 자동으로 할 수 없을까 ? 
+
+### 4. 서비스 이상, 부하 모니터링은 어떻게 할까?
+![image](https://user-images.githubusercontent.com/28394879/131447660-4ea23021-af5a-4908-af3e-a1489d58b152.png)
+- 여러개의 컨테이너중에 5개의 컨테이너가 죽었을때 어떻게 할까 ?
+- 직접 다 들어가서 확인하기에는 번거롭고 쉽지 않다.
+
+
+### 컨테이너 오케스트레이션
+![image](https://user-images.githubusercontent.com/28394879/131447781-71a2f8c1-7f4c-4efc-b072-92344a9b7f7f.png)
+- 컨테이너 기술 자체는 좋은데, 더 많은 컨테이너를 관리하기 위해서 나온 기술이다.
 
 </details>
 
