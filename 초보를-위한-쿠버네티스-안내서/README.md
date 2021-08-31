@@ -180,6 +180,62 @@
 
 
 
+<details>
+<summary>6. 어떤걸 배울까?</summary>
+
+## 6. 어떤걸 배울까?
+
+![image](https://user-images.githubusercontent.com/28394879/131450946-d9e8fed9-d997-4313-b947-5cb0dcbb5edc.png)
+- 도커를 모른다면, 쿠버네티스를 완벽하게 이해할 수 없다.
+
+![image](https://user-images.githubusercontent.com/28394879/131451015-c629fc08-21da-4f66-8eda-fd4745d5576d.png)
+
+### 학습범위
+- 도커 컨테이너 실행하기
+    - 도커와 도커컴포즈를 이용한 멀티 컨테이너 관리
+    
+- 쿠버네티스에 컨테이너 배포하기
+    - 실습(hands-on) 환경 만들기
+    - kubectl 사용법
+    - pod, deployment, service 등
+    - 기본 리소스 학습
+    
+- 외부 접속 설정 하기
+    - Cluster IP, NodePort, LoadBalancer, Ingress
+    - 서비스 타입 학습
+    - 서비스 디스커버리 학습 
+
+- 스케일 아웃 하기
+    - 부하에 따른 컨테이너 개수 조정
+    - 최소 리소스 요청 설정
+    - 오토스케일링
+
+- 그외 고급기능 소개
+    - HELM 패키지 매니저 소개
+    - GitOps, ServiceMesh 소개
+
+### 다루지 않는 범위
+- 다양한 환경별 특징 (bare, metal, EKS, ...)
+- 쿠버네티스 패턴 (사이드카, 어댑터, ...)
+- 관련 생태계 (서비스메시, 서버리스, ...)
+- GitOps CI/CD
+- 승인제어 등 고급 기능
+
+### 학슴 목표
+- 구성요소 이해
+- 동작원리 파악
+- 기본적인 사용법
+
+
+
+
+
+
+</details>
+
+
+
+
 
 
 # 2. 쿠버네티스 알아보기
