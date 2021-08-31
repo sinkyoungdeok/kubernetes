@@ -145,6 +145,36 @@
 
 ## 5. 왜 쿠버네티스인가?
 
+### 쿠버네티스 소개
+- 컨테이너를 쉽고 빠르게 배포/확장하고 관리를 자동화해주는 오픈소스 플랫폼 
+- 1주일에 20억개의 컨테이너를 생성하는 google이 컨테이너 배포 시스템으로 사용하던 borg를 기반으로 만든 오픈소스
+
+
+### 쿠버네티스 특징
+- 오픈소스
+- 엄청난 인기
+- 무한한 확장성
+- 사실상의 표준 (de facto)
+
+### 오픈소스
+![image](https://user-images.githubusercontent.com/28394879/131449875-55e3ebe9-16fd-4b6d-8386-bf0ff5a9145c.png)
+
+### 엄청난 인기 
+![image](https://user-images.githubusercontent.com/28394879/131449949-36b699f9-2bd6-4370-81ee-32557a3574a3.png)
+![image](https://user-images.githubusercontent.com/28394879/131450017-b01531a8-7398-475e-8a45-1c630cdd5bd3.png)
+
+### 무한한 확장성
+![image](https://user-images.githubusercontent.com/28394879/131450067-ecd01e07-b979-4386-b71c-99f2edfe4551.png)
+
+### 사실상의 표준 (de facto)
+![image](https://user-images.githubusercontent.com/28394879/131450369-4e88e005-2080-4962-8aa6-08e3afa7c524.png)
+![image](https://user-images.githubusercontent.com/28394879/131450439-92b09d66-39b9-4ca5-adfe-5f5b9b9a6ed8.png)
+![image](https://user-images.githubusercontent.com/28394879/131450482-dfd5f984-ffea-441d-88ed-ad80781ca449.png)
+- Cloud Native의 핵심적인 역할을 한다.
+- 사실상 표준이기 떄문에, 인프라를 위해서 찾아보면 왠만한 것들은 이미 다 나와 있다.
+
+
+
 
 </details>
 
