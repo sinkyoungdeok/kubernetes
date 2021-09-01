@@ -410,6 +410,86 @@
 
 ## 3. 쿠버네티스 아키텍처 2/3 (오브젝트)
 
+### Pod
+![image](https://user-images.githubusercontent.com/28394879/131675731-3f1e7fe9-0bfb-4771-bbad-e6b66e2ad94a.png)
+- 가장 작은 배포 단위 
+
+![image](https://user-images.githubusercontent.com/28394879/131675983-d29b3752-9a25-4308-ad4f-4977bb5843c2.png)
+- 전체 클러스터에서 고유한 IP를 할당 
+
+![image](https://user-images.githubusercontent.com/28394879/131676101-271f901e-b96d-45e2-95ee-7c36d1de992e.png)
+- 여러개의 컨테이너가 하나의 Pod에 속할 수 있음
+
+### ReplicaSet
+![image](https://user-images.githubusercontent.com/28394879/131676510-6a146a4a-a0de-4d6a-911a-69f50ae6ac96.png)
+- 여러개의 Pod을 관리
+
+![image](https://user-images.githubusercontent.com/28394879/131677224-31f485dc-83d5-4f77-9127-da9702bb8a6c.png)
+- 새로운 Pod은 Template을 참고하여 생성
+
+![image](https://user-images.githubusercontent.com/28394879/131677321-75c7c1ee-9031-4b0b-bebb-aae1036ae4a9.png)
+- 신규 Pod을 생성하거나 기존 Pod을 제거하여 원하는 수(Replicas)를 유지
+
+### Deployment
+![image](https://user-images.githubusercontent.com/28394879/131677421-b279f566-52c5-471d-8efd-885db24069df.png)
+- 배포 버전을 관리 
+
+![image](https://user-images.githubusercontent.com/28394879/131677530-50fb9d9c-0f0f-4e7c-a2ee-6c52202c8c87.png)
+![image](https://user-images.githubusercontent.com/28394879/131677700-db746234-825c-4132-9385-28152d4263dd.png)
+![image](https://user-images.githubusercontent.com/28394879/131677843-18eebcde-4085-465d-8ef2-dd77c1412639.png)
+- 내부적으로 ReplicaSet을 이용
+
+### 다양한 Workload
+![image](https://user-images.githubusercontent.com/28394879/131677934-3a0f09db-b817-49d7-9b17-aea799463312.png)
+- DAEMON SET
+  - 모든 노드에 꼭 하나의 POD이 떠있길 원할 때 사용 
+  - 로그 수집, 모니터링 등등 
+- STATEFUL SETS
+  - 순서대로 POD을 실행 하고 싶거나, 같은것을 계속 재활용 하고 싶을때 사용
+- JOB
+  - 한번 실행 하고 죽는 POD을 원할 때 사용 
+  
+### Service - ClusterIP
+![image](https://user-images.githubusercontent.com/28394879/131678484-de38a8cb-17d2-41ec-98a9-773fa712a3cb.png)
+- 클러스터 내부에서 사용하는 프록시 
+
+![image](https://user-images.githubusercontent.com/28394879/131678586-979b3828-c1a4-475f-afe6-aabbfec7ad6f.png)
+- Pod은 동적이지만 서비스는 고유 IP를 가짐 
+
+![image](https://user-images.githubusercontent.com/28394879/131678733-4f76684e-ac49-4d09-96db-ffef28e7563c.png)
+- 클러스터 내부에서 서비스 연결은 DNS를 이용
+
+### Service - NodePort
+![image](https://user-images.githubusercontent.com/28394879/131678937-19b79f7d-050f-4d42-b9fa-519ad012ae91.png)
+- 노드(host)에 노출되어 외부에서 접근 가능한 서비스
+
+![image](https://user-images.githubusercontent.com/28394879/131679094-97b3f8bc-f2c8-4515-ac21-c3b71adb4c74.png)
+- 모든 노드에 동일한 포트로 생성
+
+### Service - LoadBalancer
+![image](https://user-images.githubusercontent.com/28394879/131679198-d2770b83-a1c5-4e15-b7db-ab230cc4fe2e.png)
+![image](https://user-images.githubusercontent.com/28394879/131679337-4a36c134-5eaa-49a7-b27f-adf376e74ea2.png)
+- 하나의 IP주소를 외부에 노출
+
+
+### Ingress
+![image](https://user-images.githubusercontent.com/28394879/131679475-c131ab93-e69e-4596-893e-d2fed9fbe18e.png)
+- 도메인 또는 경로별 라우팅
+  - Nginx, HAProxy, ALB, ...
+
+
+### 일반적인 구성
+![image](https://user-images.githubusercontent.com/28394879/131679719-73eaa1a0-b6d7-4b3c-8823-ae22ce32ae06.png)
+
+
+### 그 외 기본 오브젝트
+- Volume - Storage (EBS, NFS, ...)
+- Namespace - 논리적인 리소스 구분
+- ConfigMap/Secret - 설정
+- ServiceAccount - 권한계정
+- Role/ClusterRole - 권한설정 (get, list, watch, create, ...)
+- ... 
+
 
 </details>
 
