@@ -290,6 +290,115 @@
 
 ## 2. 쿠버네티스 아키텍처 1/3 (구성/설계)
 
+### 쿠버네티스 - 원하는 상태
+![image](https://user-images.githubusercontent.com/28394879/131660993-1aafd87b-713b-4a0a-9576-3fd4ae1342e2.png)
+- 쿠버네티스가 내부적으로 이런 처리를 반복적으로 한다.
+
+![image](https://user-images.githubusercontent.com/28394879/131661219-04a9f63b-047d-4d1d-851e-dbe0ed3e2308.png)
+- 쿠버네티스는 여러개의 Desired State를 가지고 각각을 체크하는 Controller가 있다.
+
+
+![image](https://user-images.githubusercontent.com/28394879/131661427-0b7f1bca-558e-4f05-983a-ce6004673adc.png)
+
+### 쿠버네티스 마스터 - etcd
+- 모든 상태와 데이터를 저장
+- 분산 시스템으로 구성하여 안전성을 높임 (고가용성)
+- 가볍고 빠르면서 정확하게 설계 (일관성)
+- Key(directory)-Value 형태로 데이터 저장
+- TTL(time to live), watch같은 부가 기능 제공
+- 백업은 필수! 
+
+### 쿠버네티스 마스터 - API server
+- 상태를 바꾸거나 조회
+- etcd와 유일하게 통신하는 모듈
+- REST API 형태로 제공
+- 권한을 체크하여 적절한 권한이 없을 경우 요청을 차단
+- 관리자 요청 뿐 아니라 다양한 내부 모듈과 통신
+- 수평으로 확장되도록 디자인 
+
+### 쿠버네티스 마스터 - Scheduler
+- 새로 생성된 Pod을 감지하고 실행할 노드를 선택
+- 노드의 현재 상태와 Pod의 요구사항을 체크
+  - 노드에 라벨을 부여
+  - ex) a-zone, b-zone 또는 gpu-enabled, ...
+  
+### 쿠버네티스 마스터 - Controller
+- 논리적으로 다양한 컨트롤러가 존재
+  - 복제 컨트롤러
+  - 노드 컨트롤러
+  - 엔드포인트 컨트롤러...
+- 끊임 없이 상태를 체크하고 원하는 상태를 유지
+- 복잡성을 낮추기 위해 하나의 프로세스로 실행
+
+### 쿠버네티스 마스터 - 조회 흐름
+![image](https://user-images.githubusercontent.com/28394879/131662283-859beffc-9577-4d48-b555-f24c1a60ab9e.png)
+- 컨트롤러는 컨틀롤러가 체크하고 있는 상태를 조회할 때 etcd에 직접 물어보는 것이 아닌, API Server에 물어본다.
+![image](https://user-images.githubusercontent.com/28394879/131662303-1a74b598-48fb-4b74-99b5-5a57cb3419b4.png)
+- API Server는 저 컨트롤러가 해당하는 리소스를 볼 수 있는지 권한을 체크한다. 
+![image](https://user-images.githubusercontent.com/28394879/131662334-87e3be42-cc04-4dd9-911c-9f025664ddfc.png)
+- 권한이 있다고 판단이 될 경우에, etcd 정보를 조회 해서 알려주게 된다.
+![image](https://user-images.githubusercontent.com/28394879/131662351-08b00d63-3008-4e98-811e-df817608b4d7.png)
+- 원하는 상태가 변경이 된다면, API Server에 요청을 한다.
+![image](https://user-images.githubusercontent.com/28394879/131662378-1e90105b-b00b-47bf-b278-c1c5cd74a010.png)
+- ApI Server에서 Controller한태 원하는 상태가 변경이 되었다고 알려준다.
+![image](https://user-images.githubusercontent.com/28394879/131662406-465725b5-8ba9-4ae1-bdae-5ed336cdf7fa.png)
+- Controller는 현재상태와 원하는 상태가 바뀌었기 때문에 조치를 해서 리소스 변경한다.
+![image](https://user-images.githubusercontent.com/28394879/131662430-d5926bc4-77a0-4fb7-8e1d-f6cb10d8b7b6.png)
+- Controller에서 변경한 내용을 API Server 에 전달 한다.
+![image](https://user-images.githubusercontent.com/28394879/131662456-4ac1d410-1de4-48af-be47-43f29f13d324.png)
+- API Server에서 변경할 수 있는 권한이 있는지 체크 한다.
+![image](https://user-images.githubusercontent.com/28394879/131662482-7e7ea563-530f-49ba-9e56-b32e9c429f8a.png)
+- 권한이 있다고 판단이 될 경우에, etcd에 정보를 갱신 한다.
+
+### 쿠버네티스 마스터 - API Server 통신
+![image](https://user-images.githubusercontent.com/28394879/131662584-3fd76f73-449c-4110-bdf9-cdd48f920ab5.png)
+
+
+### 쿠버네티스 Node
+![image](https://user-images.githubusercontent.com/28394879/131663378-9a13f7fc-4bdc-40bd-b03d-62b8e88d1dc5.png)
+
+### 쿠버네티스 Node - Kubelet
+- 각 노드에서 실행
+- Pod을 실행/중지하고 상태를 체크
+- CRI (Container Runtime Interface)
+  - docker
+  - Containerd
+  - CRI-O
+  - ...
+
+### 쿠버네티스 Node - proxy
+- 네트워크 프록시와 부하 분산 역할
+- 성능상의 이유로 별도의 프록시 프로그램 대신
+- iptables 또는 IPVS를 사용 (설정만 관리)
+
+
+### 쿠버네티스 흐름 - pod이 생성되는 과정
+![image](https://user-images.githubusercontent.com/28394879/131664138-51ab90db-e565-4fed-a059-0b33015f999d.png)
+1. 관리자가 Pod 하나를 API Server에게 생성 요청 
+![image](https://user-images.githubusercontent.com/28394879/131664154-3b959587-078d-4a83-aeb3-a565dfc5b902.png)
+2. API Server가 etcd에 그 정보를 넣는다. (pod을 생성하라는 요청이 들어왔다 라는 정보를 넣음)
+![image](https://user-images.githubusercontent.com/28394879/131664186-fef73161-303a-49f3-ba62-e03bbeaa3185.png)
+3. Controller가 새로 생긴 팟이 있나 계속 체크를 하는데, 새 pod요청을 확인
+![image](https://user-images.githubusercontent.com/28394879/131664212-d903d533-4527-4398-bd97-0f9a06981ec9.png)
+4. 새 pod요청을 확인하고나서, 실제 pod을 할당하는 API서버에게 요청을 다시한다.
+![image](https://user-images.githubusercontent.com/28394879/131664237-270eaef9-bc66-4197-8f13-0f8ff73daa87.png)
+5. API Server에서 etcd에 Pod 할당요청 해라 라고 상태를 바꾼다.
+![image](https://user-images.githubusercontent.com/28394879/131664261-e34811d6-b62d-40bb-ad49-17387c7e5a22.png)
+6. 스케줄러는 계속 Pod 할당요청이 있는지 체크를 하는데, Pod 할당요청 확인
+![image](https://user-images.githubusercontent.com/28394879/131664297-c6ceac46-1a50-4c7a-9286-5800672a4605.png)
+7. 여러개의 노드중에 어디에 띄울까 고민을 하다가 특정 노드에 Pod을 할당한다. 그러고나서 API Server에 요청
+![image](https://user-images.githubusercontent.com/28394879/131664319-f02d09e8-8c67-409d-a905-ec8ebaabaad2.png)
+8. API Server에서 할당은 완료 되었고, 실행되기 전 상태라는 것을 etcd에 저장 
+![image](https://user-images.githubusercontent.com/28394879/131664347-a9c4f53b-7a31-45cd-858b-b7e5edcacbe7.png)
+9. Kubelet이 계속해서 할당은 됐지만 미실행인 Pod이 있는지 계속 체크, 미실행 Pod 확인 
+![image](https://user-images.githubusercontent.com/28394879/131664392-4b6a4429-8108-402c-90f8-56b409b304ad.png)
+10. 미실행 Pod을 생성 해주고, 그정보를 다시 API Server로 요청 
+![image](https://user-images.githubusercontent.com/28394879/131664513-6a9233d8-546a-4435-8a02-74feb8368025.png)
+11. API Server가 etcd에 pod이 특정노드에 할당되었고 실행중이다 라는 것을 업데이트 시킨다.
+![image](https://user-images.githubusercontent.com/28394879/131664557-4ae10c8a-4168-4d45-b1d7-535814561e48.png)
+
+
+
 
 </details>
 
