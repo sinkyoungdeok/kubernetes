@@ -538,4 +538,57 @@
 
 # 3. 쿠버네티스 실습 준비
 
+
+<details>
+<summary>1. YAML 문법</summary>
+
+## 1. YAML 문법
+
+
+</details>
+
+
+
+<details>
+<summary>2. 쿠버네티스 설치 (macOS)</summary>
+
+## 2. 쿠버네티스 설치 (macOS)
+
+
+</details>
+
+
+
+
+
+<details>
+<summary>3. Kubectl 설치 (macOS)</summary>
+
+## 3. Kubectl 설치 (macOS)
+
+
+</details>
+
+
+
+
+
+
+<details>
+<summary>4. k3s 설치 </summary>
+
+## 4. k3s 설치
+
+
+</details>
+
+
+
+
+
+
+
+
+
+
 # 4. 쿠버네티스 기본 실습
