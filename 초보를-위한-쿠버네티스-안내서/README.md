@@ -501,6 +501,30 @@
 
 ## 4. 쿠버네티스 아키텍처 3/3 (API 호출)
 
+### Object Sepc - YAML
+![image](https://user-images.githubusercontent.com/28394879/131784205-8dbf9c90-347d-42f8-b3e2-aacf5d759e5d.png)
+![image](https://user-images.githubusercontent.com/28394879/131784283-aea81a87-153b-493f-ad27-5eee72e2b110.png)
+![image](https://user-images.githubusercontent.com/28394879/131784346-7be9cf9a-e40d-4357-a10e-d643e7765110.png)
+
+### Object Spec
+- apiVersion
+  - apps/v1, v1, batch/v1, networking.k8s.io/v1, ...
+- kind
+  - Pod, Deployment, Service, Ingress, ...
+- metadata
+  - name, label, namespace, ...
+- spec
+  - 각종 설정  (https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18)
+- status(read-only)
+  - 시스템에서 관리하는 최신 상태
+
+### API 호출하기
+- 원하는 상태(desired state)를 다양한 오브젝트(object)로 정의(spec)하고 aPI 서버에 yaml형식으로 전달
+
+### ReplicaSet 생성 과정
+![image](https://user-images.githubusercontent.com/28394879/131784818-ce00d7b8-3617-4421-96a0-60349179112f.png)
+
+
 
 </details>
 
