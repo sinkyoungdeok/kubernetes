@@ -589,6 +589,65 @@
 
 ## 2. 쿠버네티스 설치 (macOS)
 
+### 개발 vs 운영
+- 쿠버네티스를 운영환경에 설치하기 위해서는 최소 3대의 마스터 서버와 컨테이너 배포를 위한
+  n개의 노드 서버가 필요하다.
+  ![image](https://user-images.githubusercontent.com/28394879/131940587-f8ac0de2-94a0-4599-85d1-eb3f0dbb7f3c.png)
+- 이러한 설치는 과정이 복잡하고 배포 환경(AWS, Google Cloud, Azure, Bare Metal, ...)
+  에 따라 방법이 다르기 때문에 처음 공부할 때 바로 구축하기는 적합하지 않다.
+- 여기서 개발 환경을 위해 마스터와 노드를 하나의 서버에 설치하여 손쉽게 관리하는 방법을 사용 한다.
+  ![image](https://user-images.githubusercontent.com/28394879/131940742-daaa8e19-fc87-4c54-ab76-89d011de46d6.png)
+- 대표적인 개발 환경 구축 방법으로 minikube, k3s, docker for desktop, kind가 있다.
+- 대부분의 환경에서 사용할 수 있고 간편하며, 무료인 minikube를 추천하지만 설치할 수 없거나 사양이 낮은 경우엔
+  저렴한 비용으로 테스트할 수 있는(1,000원 이하) k3s를 추천 한다.
+
+```
+주의
+개발환경과 운영환경의 가장 큰 차이점은 개발환경은 단일 노드로 여러 노드에 스케줄링하는 테스트가
+어렵고 LoadBalancer와 Persistent Local Storage 또한 가상으로 만들어야 한다.
+이러한 실습을 정확하게 하려면 운영환경(멀티노드)에서 진행해야 한다. 
+```
+
+### minikube
+- 쿠버네티스 클러스터를 실행하려면 최소한 scheduler, controller, api-server, etcd,
+  kubelet, kube-proxy를 설치해야 하고 필요에 따라 dns, ingress controller, storage class등을
+  설치해야 한다. 쿠버네티스 설치 또한 중요한 과정이지만 처음 공부할 땐 설치보단 실질적인 사용법을 익히는게 중요하다.
+- 이러한 설치를 쉽고 빠르게 하기 위한 도구가 minikube 이다. minikube는 windows, macOS,
+  linux에서 사용할 수 있고 다양한 가상 환경(Hyperkit, Hyper-V, Docker, VirtualBox등)을 지원하여 대부분의
+  환경에서 문제없이 동작한다.
+
+### macOS에서 설치
+```
+# homebrew를 사용하고 있을떈
+brew install minikube
+
+# homebrew를 사용하지 않을땐
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-darwin-amd64
+chmod +x minikube
+mv ./minikube /usr/local/bin/ 
+```
+
+### minikube 기본 명령어
+- 버전 확인
+  - minikube version
+- 가상머신 시작
+  - minikube start --driver=hyperkit
+- driver 에러가 발생한다면 virtual box를 사용
+  - minikube start --driver=virtualbox
+- 가상머신 대신 docker (m1에서는 이걸 사용해야 됨)
+  - minikube start --driver=docker
+- 특정 k8s 버전 실행
+  - minikube start --kubernetes-version=v1.20.0
+- 상태 확인
+  - minikube status
+- 정지
+  - minikube stop
+- 삭제
+  - minikube delete
+- ssh 접속
+  - minikube ssh
+- ip 확인
+  - minikube ip
 
 </details>
 
