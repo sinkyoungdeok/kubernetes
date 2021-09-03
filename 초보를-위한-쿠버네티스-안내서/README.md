@@ -660,6 +660,25 @@ mv ./minikube /usr/local/bin/
 
 ## 3. Kubectl 설치 (macOS)
 
+- `kubectl`은 쿠버네티스 CLI 도구이다. 
+- 쿠버네티스 클러스터에 명령어를 전달하는 가장 흔한 방법이고 실습을 하면서 수십, 수백번 사용할 예정이다.
+
+### kubectl 설치 (macOS)
+```
+# homebrew를 사용하고 있다면
+brew install kubectl
+
+# homebrew를 사용하지 않는다면, 직접 binary 다운로드
+curl -LO https://storage.googleapis.com/kubenetes-release/release/v1.20.0/bin/darwin/amd64/kubectl 
+chmod +x kubectl
+mv ./kubectl /usr/local/bin/ 
+
+# homebrew를 사용하지 않을떄 (m1)
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/darwin/arm64/kubectl"
+chmod +x kubectl
+mv ./kubectl /usr/local/bin/ 
+```
+
 
 </details>
 
