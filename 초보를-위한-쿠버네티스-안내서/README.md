@@ -692,6 +692,69 @@ mv ./kubectl /usr/local/bin/
 
 ## 4. k3s 설치
 
+### k3s
+- minikube를 사용할 수 없거나 네트워크 등 여러가지 이슈로 실습이 어려운 경우,
+별도 클라우드 서버에 k3s를 설치하여 원격으로 실습할 수 있다.
+- 여기선 AWS Lightsail 에 설치하는 법을 소개하며 한 당 동안 가상머신을 사용했을 때
+$20, 하루 동안 실습할 경우 1,000원 이하의 비용이 발생한다.
+
+1. AWS 로그인 후, Lightsail 메뉴를 선택
+   ![image](https://user-images.githubusercontent.com/28394879/132096015-16047d1f-0698-422a-a96b-e5ac1a0153b5.png)
+
+2. 새로운 인스턴스 생성 - Create instance 선택
+   ![image](https://user-images.githubusercontent.com/28394879/132096037-4f8fefca-1491-4428-afca-b58afa03b2fa.png)
+ 
+3. Linux / Ubuntu 20.04 선택
+   ![image](https://user-images.githubusercontent.com/28394879/132096054-afd72803-ce62-4795-a92b-2a7bcf4c22cf.png)
+   
+4. Add launch script를 선택 후 다음 명령어 입력 
+```
+sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/' /etc/ssh/sshd_config
+echo "ubuntu:1q2w3e4r!!" | chpasswd
+service sshd reload
+curl -sL https://deb.nodesource.com/setup_14.x | bash -
+apt-get -y update
+DEBIAN_FRONTEND=noninteractive apt-get -y install nodejs build-essential
+npm install -g wetty --unsafe
+ln -s /usr/bin/wetty /usr/local/bin/wetty
+curl https://gist.githubusercontent.com/subicura/9058671c16e2abd36533fea2798886b0/raw/e5d249612711b14c9c8f44798dea1368395e86a9/wetty.service -o /lib/systemd/system/wetty.service
+systemctl start wetty
+systemctl enable wetty
+```
+
+5. 2 vCPUs / 4 GB 또는 더 나은 사양 선택
+   ![image](https://user-images.githubusercontent.com/28394879/132096115-4595bfdb-6c79-4117-a3cb-b4fa0962135e.png)
+   
+6. 가상 서버 생성이 완료되면 이름 선택
+   ![image](https://user-images.githubusercontent.com/28394879/132096134-b80709ca-e0b6-4e45-b847-3baeb065ccf7.png)
+   
+7. Networking 탭 선택후 방화벽 허용 (4000-65000) SSH(22)는 반드시 제거
+   ![image](https://user-images.githubusercontent.com/28394879/132096143-c7d9fd13-6e19-4e2f-96e0-83b8df95e272.png)
+   
+8. 방화벽 설정 결과
+   ![image](https://user-images.githubusercontent.com/28394879/132096154-c32f2a0c-093b-4d62-bc15-e9dfb09e2cbe.png)
+   
+9. Public IP 주소와 4200 port로 접속 (아이디/패스워드 - ubuntu/1q2w3e4r!!)
+  ![image](https://user-images.githubusercontent.com/28394879/132096160-38f11d09-11cc-4e78-9dc9-b70a813ee209.png)
+
+10. k3s 설치
+```
+curl -sfL https://get.k3s.io | sh -
+sudo chown ubuntu:ubuntu /etc/rancher/k3s/k3s.yaml
+
+# 확인
+kubectl get nodes
+
+# 설정 복사
+cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+```
+
+### 기외 - docker for desktop
+- docker for desktop에서 쿠버네티스 클러스터를 활성화 할 수 있다.
+  ![image](https://user-images.githubusercontent.com/28394879/132096200-3b1513fe-9dba-45b6-a8e5-a42ee1da5b49.png)
+- docker for desktop은 리소스(CPU, 메모리)를 많이 차지하기 떄문에 가급적 실습할 때 껐다 켜기 쉬운 minikube를 추천
+
+
 
 </details>
 
